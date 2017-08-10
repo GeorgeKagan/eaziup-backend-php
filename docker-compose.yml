@@ -18,6 +18,7 @@ services:
             - ./log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
     mysql:
         image: mariadb
+        restart: always
         ports:
             - "6603:3306"
         environment:
@@ -25,3 +26,8 @@ services:
             MYSQL_USER: root
             MYSQL_PASSWORD: root
             MYSQL_ROOT_PASSWORD: root
+        volumes:
+            - my-datavolume:/var/lib/mysql
+
+volumes:
+    my-datavolume:
