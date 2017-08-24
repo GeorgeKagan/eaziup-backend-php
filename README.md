@@ -7,8 +7,8 @@
   * Import an SQL dump  to fill the DB (not versioned)
 * Install Docker on your local machine (https://docs.docker.com/engine/installation/)
 * Make sure to **mount** the drive the project is on under `Settings -> Shared Drives`
-* Run `docker-compose up` to run the dev containers
-  * If docker-compose fails, try running it from a PowerShell or CMD as admin
+  * If you update Docker, you need to re-mount
+* Run `docker-compose up` **_using PowerShell_** to run the dev containers
 * Go to localhost:8080
 
 ## Tips
