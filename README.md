@@ -16,4 +16,9 @@
 * To remove a container (e.g. to update host mappings), run `docker-compose rm *image*`
 * Remove all (also running) containers: `docker rm -f $(docker ps -a -q)`
 * Remove all images: `docker rmi -f $(docker images -q)`
-* Remove all volumes (persistent storage): `docker volume rm $(docker volume ls -q)`
+* Remove all volumes (persistent storage): `docker volume rm $(docker volume ls -q)`  
+
+  
+## DB schema
+Schema only (no data) resides in `src/database/eaziup.sql`.  
+If schema changes, replace the SQL file.

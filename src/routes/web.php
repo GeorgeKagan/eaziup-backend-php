@@ -1,23 +1,13 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
+$app->group(['prefix' => 'api'], function () use ($app) {
+    $app->get('countries', function () use ($app) {
+        $countries = app('db')->select("SELECT * FROM countries");
+        return $countries;
+    });
 
-$app->get('/countries', function () use ($app) {
-    $countries = app('db')->select("SELECT * FROM countries");
-    return $countries;
-});
-
-$app->get('/cats', function () use ($app) {
-    return '[{
+    $app->get('cats', function () use ($app) {
+        return '[{
     "label": "Software",
   "cats": [{
         "id": 1,
@@ -33,4 +23,9 @@ $app->get('/cats', function () use ($app) {
     "label": "WordPress"
   }]
 }]';
+    });
+
+    $app->post('project', [
+        'as' => 'project', 'uses' => 'ProjectController@save'
+    ]);
 });
