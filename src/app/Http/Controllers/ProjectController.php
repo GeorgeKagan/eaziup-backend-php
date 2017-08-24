@@ -6,6 +6,11 @@ use App\Project;
 
 class ProjectController extends Controller
 {
+    public function index()
+    {
+        return Project::all();
+    }
+
     public function save()
     {
         $request = app('request');

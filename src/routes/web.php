@@ -1,6 +1,7 @@
 <?php
 
 $app->group(['prefix' => 'api'], function () use ($app) {
+
     $app->get('countries', function () use ($app) {
         $countries = app('db')->select("SELECT * FROM countries");
         return $countries;
@@ -25,7 +26,8 @@ $app->group(['prefix' => 'api'], function () use ($app) {
 }]';
     });
 
-    $app->post('project', [
-        'as' => 'project', 'uses' => 'ProjectController@save'
-    ]);
+    $app->group(['prefix' => 'project'], function () use ($app) {
+        $app->get('/', 'ProjectController@index');
+        $app->post('/', 'ProjectController@save');
+    });
 });
