@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\MyException;
 use App\Project;
+use Exception;
 
 class ProjectController extends Controller
 {
@@ -17,10 +19,14 @@ class ProjectController extends Controller
         $data = $request->all();
         $project = new Project;
 
-        $project->name = $data['projectInfo']['projectName'];
+        try {
+            $project['name'] = $data['projectInfo']['projectName'];
+            $project->save();
+        }
+        catch (Exception $e) {
+            throw new MyException(MyException::PROJECT_NOT_SAVED, $e);
+        }
 
-        $project->save();
-
-        return $data;
+        return parent::success();
     }
 }

@@ -18,7 +18,9 @@
 * Remove all images: `docker rmi -f $(docker images -q)`
 * Remove all volumes (persistent storage): `docker volume rm $(docker volume ls -q)`  
 
-  
 ## DB schema
-Schema only (no data) resides in `src/database/eaziup.sql`.  
+Schema only (no data) resides in `src/database/eaziup.sql`  
 If schema changes, replace the SQL file.
+
+## Error logging
+The app error log is at `src/storage/logs/lumen.log`
