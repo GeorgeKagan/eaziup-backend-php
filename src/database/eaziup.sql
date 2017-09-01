@@ -18,7 +18,7 @@ USE `lumen`;
 
 -- Dumping structure for table lumen.cats
 CREATE TABLE IF NOT EXISTS `cats` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `cats` (
 -- Data exporting was unselected.
 -- Dumping structure for table lumen.countries
 CREATE TABLE IF NOT EXISTS `countries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(2) NOT NULL DEFAULT '',
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `code` char(2) NOT NULL DEFAULT '',
   `name` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -36,10 +36,36 @@ CREATE TABLE IF NOT EXISTS `countries` (
 -- Dumping structure for table lumen.projects
 CREATE TABLE IF NOT EXISTS `projects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `country_id` tinyint(3) unsigned DEFAULT NULL,
+  `city` varchar(50) NOT NULL,
+  `addr1` varchar(50) NOT NULL,
+  `addr2` varchar(50) DEFAULT NULL,
+  `company` varchar(50) DEFAULT NULL,
+  `position` varchar(50) DEFAULT NULL,
+  `comp_desc` text DEFAULT NULL,
   `name` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cat_id` tinyint(3) unsigned DEFAULT NULL,
+  `desc` text NOT NULL,
+  `full_desc` text NOT NULL,
+  `tech_reqs` text NOT NULL,
+  `dev_reqs` text NOT NULL,
+  `os_reqs` set('win','linux','macos','winMobile','android','ios') DEFAULT NULL,
+  `logo_json` text DEFAULT '{}' COMMENT 'Refs to images stored remotely',
+  `design_json` text DEFAULT '{}' COMMENT 'Refs to images stored remotely',
+  `design_outline` text NOT NULL,
+  `start_date` date NOT NULL,
+  `dev_count` tinyint(3) unsigned NOT NULL,
+  `milestones_json` text NOT NULL DEFAULT '{}',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `cat_id` (`cat_id`),
+  KEY `country_id` (`country_id`),
+  KEY `start_date` (`start_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
