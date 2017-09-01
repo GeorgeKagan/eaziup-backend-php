@@ -11,6 +11,10 @@ class MyException extends Exception
 
     public function __construct(int $errorCode, Exception $e)
     {
+        if (env('APP_ENV') === 'local') {
+            parent::__construct($e->getMessage(), $e->getCode(), $e);
+            return;
+        }
         parent::__construct(self::DEFAULT_ERR_MSG, $errorCode, $e);
     }
 }
