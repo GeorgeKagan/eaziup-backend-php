@@ -6,8 +6,13 @@ use Exception;
 
 class MyException extends Exception
 {
-    const DEFAULT_ERR_MSG = 'Something went wrong, please try again later';
     const PROJECT_NOT_SAVED = 10;
+    const TOKEN_NOT_VERIFIED = 20;
+
+    private $messages = [
+        self::PROJECT_NOT_SAVED => 'Something went wrong, please try again later',
+        self::TOKEN_NOT_VERIFIED => 'Could not authenticate, please login again'
+    ];
 
     public function __construct(int $errorCode, Exception $e)
     {
@@ -15,6 +20,6 @@ class MyException extends Exception
             parent::__construct($e->getMessage(), $e->getCode(), $e);
             return;
         }
-        parent::__construct(self::DEFAULT_ERR_MSG, $errorCode, $e);
+        parent::__construct($this->messages[$errorCode], $errorCode, $e);
     }
 }

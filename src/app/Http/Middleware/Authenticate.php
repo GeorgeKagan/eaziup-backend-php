@@ -4,6 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Auth0\SDK\JWTVerifier;
+use App\Config\Config;
+use App\Exceptions\MyException;
+use Exception;
 
 class Authenticate
 {
@@ -17,8 +21,8 @@ class Authenticate
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @return void
+     * @param  \Illuminate\Contracts\Auth\Factory $auth
+     * @param Auth $auth
      */
     public function __construct(Auth $auth)
     {
@@ -28,17 +32,25 @@ class Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param $request
+     * @param Closure $next
      * @return mixed
+     * @throws MyException
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+        $authorizationHeader = $request->header('Authorization');
+        $jwt = trim(str_replace('Bearer ', '', $authorizationHeader));
+        $verifier = new JWTVerifier([
+            'supported_algs' => [Config::AUTH0['ALGORITHM']],
+            'valid_audiences' => [Config::AUTH0['CLIENT_ID']],
+            'authorized_iss' => [Config::AUTH0['DOMAIN']]
+        ]);
+        try {
+            $verifier->verifyAndDecode($jwt);
+            return $next($request);
+        } catch (Exception $e) {
+            throw new MyException(MyException::TOKEN_NOT_VERIFIED, $e);
         }
-
-        return $next($request);
     }
 }

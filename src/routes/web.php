@@ -2,7 +2,7 @@
 
 use App\Config\Config;
 
-$app->group(['prefix' => 'api'], function () use ($app) {
+$app->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($app) {
 
     // COUNTRIES
     $app->get('countries', function () use ($app) {
