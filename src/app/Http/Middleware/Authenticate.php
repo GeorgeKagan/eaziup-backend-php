@@ -4,11 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
-use Auth0\SDK\JWTVerifier;
-use Auth0\SDK\Helpers\Cache\FileSystemCacheHandler;
-use App\Config\Config;
 use App\Exceptions\MyException;
-use Exception;
 
 class Authenticate
 {
@@ -40,23 +36,12 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        $authorizationHeader = $request->header('Authorization');
-        $jwt = trim(str_replace('Bearer ', '', $authorizationHeader));
+        $user = $user = $request->user();
 
-        if ($jwt === 'null') {
-            throw new MyException(MyException::TOKEN_NOT_VERIFIED);
-        }
-        $verifier = new JWTVerifier([
-            'supported_algs' => [Config::AUTH0['ALGORITHM']],
-            'valid_audiences' => [Config::AUTH0['CLIENT_ID']],
-            'authorized_iss' => [Config::AUTH0['DOMAIN']],
-            'cache' => new FileSystemCacheHandler()
-        ]);
-        try {
-            $verifier->verifyAndDecode($jwt);
+        if ($user->isAuthenticated) {
             return $next($request);
-        } catch (Exception $e) {
-            throw new MyException(MyException::TOKEN_NOT_VERIFIED, $e);
+        } else {
+            throw new MyException(MyException::TOKEN_NOT_VERIFIED, $user->errorObj);
         }
     }
 }
