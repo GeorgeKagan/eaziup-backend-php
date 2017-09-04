@@ -14,9 +14,9 @@ class MyException extends Exception
         self::TOKEN_NOT_VERIFIED => 'Could not authenticate, please login again'
     ];
 
-    public function __construct(int $errorCode, Exception $e)
+    public function __construct(int $errorCode, Exception $e = null)
     {
-        if (env('APP_ENV') === 'local') {
+        if (env('APP_ENV') === 'local' && $e) {
             parent::__construct($e->getMessage(), $e->getCode(), $e);
             return;
         }

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Auth0\SDK\JWTVerifier;
+use Auth0\SDK\Helpers\Cache\FileSystemCacheHandler;
 use App\Config\Config;
 use App\Exceptions\MyException;
 use Exception;
@@ -41,10 +42,15 @@ class Authenticate
     {
         $authorizationHeader = $request->header('Authorization');
         $jwt = trim(str_replace('Bearer ', '', $authorizationHeader));
+
+        if ($jwt === 'null') {
+            throw new MyException(MyException::TOKEN_NOT_VERIFIED);
+        }
         $verifier = new JWTVerifier([
             'supported_algs' => [Config::AUTH0['ALGORITHM']],
             'valid_audiences' => [Config::AUTH0['CLIENT_ID']],
-            'authorized_iss' => [Config::AUTH0['DOMAIN']]
+            'authorized_iss' => [Config::AUTH0['DOMAIN']],
+            'cache' => new FileSystemCacheHandler()
         ]);
         try {
             $verifier->verifyAndDecode($jwt);
