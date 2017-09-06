@@ -11,7 +11,10 @@ class ProjectController extends Controller
     public function index()
     {
         $request = app('request');
-        return Project::with('cat')->where('user_id', $request->user()->uuid)->get();
+        return Project::with('cat')
+            ->where('user_id', $request->user()->uuid)
+            ->where('is_removed', 0)
+            ->get();
     }
 
     public function save()
@@ -22,11 +25,20 @@ class ProjectController extends Controller
         $project = new Project;
 
         try {
-            $project->addProject($data, $user);
+            $project->addProject($data, $user->uuid);
         }
         catch (Exception $e) {
             throw new MyException(MyException::PROJECT_NOT_SAVED, $e);
         }
+
+        return parent::success();
+    }
+
+    public function remove(int $projectId)
+    {
+        $request = app('request');
+        $user = $request->user();
+        Project::markAsRemoved($projectId, $user->uuid);
 
         return parent::success();
     }

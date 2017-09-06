@@ -20,5 +20,6 @@ $app->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($app) 
     $app->group(['prefix' => 'project'], function () use ($app) {
         $app->get('/', 'ProjectController@index');
         $app->post('/', 'ProjectController@save');
+        $app->delete('/{id}', 'ProjectController@remove');
     });
 });

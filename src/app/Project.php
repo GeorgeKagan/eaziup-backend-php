@@ -11,9 +11,9 @@ class Project extends Model
         return $this->belongsTo('App\Cat');
     }
 
-    public function addProject($data, $user)
+    public function addProject(array $data, string $userId)
     {
-        $this['user_id'] = $user->uuid;
+        $this['user_id'] = $userId;
 
         // Project supplier info
         $this['first_name'] = $data['buyerInfo']['firstName'];
@@ -54,5 +54,12 @@ class Project extends Model
         $this['milestones_json'] = json_encode($data['milestones']['arr']);
 
         $this->save();
+    }
+
+    public static function markAsRemoved(int $projectId, string $userId)
+    {
+        $project = self::where(['id' => $projectId, 'user_id' => $userId])->first();
+        $project->is_removed = 1;
+        $project->save();
     }
 }
