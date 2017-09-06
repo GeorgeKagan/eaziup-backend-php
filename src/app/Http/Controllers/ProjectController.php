@@ -11,10 +11,13 @@ class ProjectController extends Controller
     public function index()
     {
         $request = app('request');
-        return Project::with('cat')
-            ->where('user_id', $request->user()->uuid)
-            ->where('is_removed', 0)
-            ->get();
+        return Project::getAll($request->user()->uuid);
+    }
+
+    public function getOne(int $projectId)
+    {
+        $request = app('request');
+        return Project::getOne($projectId, $request->user()->uuid);
     }
 
     public function save()

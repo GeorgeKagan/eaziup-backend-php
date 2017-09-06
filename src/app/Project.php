@@ -11,6 +11,11 @@ class Project extends Model
         return $this->belongsTo('App\Cat');
     }
 
+    /**
+     * Add new project
+     * @param array $data
+     * @param string $userId
+     */
     public function addProject(array $data, string $userId)
     {
         $this['user_id'] = $userId;
@@ -56,6 +61,44 @@ class Project extends Model
         $this->save();
     }
 
+    /**
+     * Return a common project(s) select query object with mandatory filters
+     * @param string $userId
+     * @return $this
+     */
+    private static function prepareProjectQuery(string $userId)
+    {
+        return self::with('cat')
+            ->where('user_id', $userId)
+            ->where('is_removed', 0);
+    }
+
+    /**
+     * Get all non-removed projects for user
+     * @param string $userId
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getAll(string $userId)
+    {
+        return self::prepareProjectQuery($userId)->get();
+    }
+
+    /**
+     * Get a single project of a user
+     * @param int $projectId
+     * @param string $userId
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getOne(int $projectId, string $userId)
+    {
+        return self::prepareProjectQuery($userId)->where('id', $projectId)->first();
+    }
+
+    /**
+     * "Remove" the project (not really -- archive it)
+     * @param int $projectId
+     * @param string $userId
+     */
     public static function markAsRemoved(int $projectId, string $userId)
     {
         $project = self::where(['id' => $projectId, 'user_id' => $userId])->first();
