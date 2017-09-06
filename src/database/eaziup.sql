@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `countries` (
 -- Dumping structure for table lumen.projects
 CREATE TABLE IF NOT EXISTS `projects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(50) NOT NULL DEFAULT '0',
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -65,7 +66,8 @@ CREATE TABLE IF NOT EXISTS `projects` (
   PRIMARY KEY (`id`),
   KEY `cat_id` (`cat_id`),
   KEY `country_id` (`country_id`),
-  KEY `start_date` (`start_date`)
+  KEY `start_date` (`start_date`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
