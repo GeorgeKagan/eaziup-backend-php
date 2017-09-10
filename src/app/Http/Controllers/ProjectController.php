@@ -25,10 +25,16 @@ class ProjectController extends Controller
         $request = app('request');
         $data = $request->all();
         $user = $request->user();
-        $project = new Project;
 
         try {
-            $project->addProject($data, $user->uuid);
+            // Edit mode
+            if ($data['id']) {
+                $project = Project::find($data['id']);
+                Project::saveProject($project, $data, $user->uuid, true);
+            } else {
+                $project = new Project();
+                Project::saveProject($project, $data, $user->uuid, false);
+            }
         }
         catch (Exception $e) {
             throw new MyException(MyException::PROJECT_NOT_SAVED, $e);

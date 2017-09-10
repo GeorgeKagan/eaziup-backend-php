@@ -13,52 +13,56 @@ class Project extends Model
 
     /**
      * Add new project
+     * @param Project $projectModel
      * @param array $data
      * @param string $userId
+     * @param bool $isEditMode
      */
-    public function addProject(array $data, string $userId)
+    public static function saveProject(Project $projectModel, array $data, string $userId, bool $isEditMode)
     {
-        $this['user_id'] = $userId;
+        if (!$isEditMode) {
+            $projectModel['user_id'] = $userId;
+        }
 
         // Project supplier info
-        $this['first_name'] = $data['buyerInfo']['firstName'];
-        $this['last_name'] = $data['buyerInfo']['lastName'];
-        $this['email'] = $data['buyerInfo']['contactEmail'];
-        $this['phone'] = $data['buyerInfo']['contactPhone'];
-        $this['country_id'] = $data['buyerInfo']['country'];
-        $this['city'] = $data['buyerInfo']['city'];
-        $this['addr1'] = $data['buyerInfo']['addressLine1'];
-        $this['addr2'] = $data['buyerInfo']['addressLine2'];
-        $this['company'] = $data['buyerInfo']['companyName'];
-        $this['position'] = $data['buyerInfo']['companyPosition'];
-        $this['comp_desc'] = $data['buyerInfo']['whatCompanyDoes'];
+        $projectModel['first_name'] = $data['buyerInfo']['firstName'];
+        $projectModel['last_name'] = $data['buyerInfo']['lastName'];
+        $projectModel['email'] = $data['buyerInfo']['contactEmail'];
+        $projectModel['phone'] = $data['buyerInfo']['contactPhone'];
+        $projectModel['country_id'] = $data['buyerInfo']['country'];
+        $projectModel['city'] = $data['buyerInfo']['city'];
+        $projectModel['addr1'] = $data['buyerInfo']['addressLine1'];
+        $projectModel['addr2'] = $data['buyerInfo']['addressLine2'];
+        $projectModel['company'] = $data['buyerInfo']['companyName'];
+        $projectModel['position'] = $data['buyerInfo']['companyPosition'];
+        $projectModel['comp_desc'] = $data['buyerInfo']['whatCompanyDoes'];
 
         // Project info
-        $this['name'] = $data['projectInfo']['projectName'];
-        $this['cat_id'] = $data['projectInfo']['cat'];
-        $this['desc'] = $data['projectInfo']['basicDesc'];
-        $this['full_desc'] = $data['projectInfo']['fullDesc'];
-        $this['tech_reqs'] = $data['projectInfo']['techReqs'];
-        $this['dev_reqs'] = $data['projectInfo']['developerReqs'];
+        $projectModel['name'] = $data['projectInfo']['projectName'];
+        $projectModel['cat_id'] = $data['projectInfo']['cat'];
+        $projectModel['desc'] = $data['projectInfo']['basicDesc'];
+        $projectModel['full_desc'] = $data['projectInfo']['fullDesc'];
+        $projectModel['tech_reqs'] = $data['projectInfo']['techReqs'];
+        $projectModel['dev_reqs'] = $data['projectInfo']['developerReqs'];
         // Get OS requirements
         $osReqs = [];
         foreach ($data['projectInfo']['osReqs'] as $os => $isSet) {
             if ($isSet) { $osReqs[] = $os; }
         }
-        $this['os_reqs'] = implode(',', $osReqs);
+        $projectModel['os_reqs'] = implode(',', $osReqs);
 
         // Design
-        $this['logo_json'] = json_encode($data['design']['logoSlogan']);
-        $this['design_json'] = json_encode($data['design']['designIdeas']);
-        $this['design_outline'] = $data['design']['designOutline'];
+        $projectModel['logo_json'] = json_encode($data['design']['logoSlogan']);
+        $projectModel['design_json'] = json_encode($data['design']['designIdeas']);
+        $projectModel['design_outline'] = $data['design']['designOutline'];
 
         // Team & milestones
         $startDate = $data['milestones']['startDate'];
-        $this['start_date'] = $startDate['year'] . '-' . $startDate['month'] . '-' . $startDate['day'];
-        $this['dev_count'] = $data['milestones']['developerCount'];
-        $this['milestones_json'] = json_encode($data['milestones']['arr']);
+        $projectModel['start_date'] = $startDate['year'] . '-' . $startDate['month'] . '-' . $startDate['day'];
+        $projectModel['dev_count'] = $data['milestones']['developerCount'];
+        $projectModel['milestones_json'] = json_encode($data['milestones']['arr']);
 
-        $this->save();
+        $projectModel->save();
     }
 
     /**
