@@ -36,7 +36,7 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        $user = $user = $request->user();
+        $user = $request->user();
 
         if ($user->isAuthenticated) {
             return $next($request);
