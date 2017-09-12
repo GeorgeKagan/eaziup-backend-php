@@ -67,24 +67,31 @@ class Project extends Model
 
     /**
      * Return a common project(s) select query object with mandatory filters
-     * @param string $userId
      * @return $this
      */
-    private static function prepareProjectQuery(string $userId)
+    private static function prepareProjectQuery()
     {
         return self::with('cat')
-            ->where('user_id', $userId)
             ->where('is_removed', 0);
+    }
+
+    /**
+     * Get all active projects for students to pick
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getAll()
+    {
+        return self::prepareProjectQuery()->get();
     }
 
     /**
      * Get all non-removed projects for user
      * @param string $userId
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return mixed
      */
-    public static function getAll(string $userId)
+    public static function getForUser(string $userId)
     {
-        return self::prepareProjectQuery($userId)->get();
+        return self::prepareProjectQuery()->where('user_id', $userId)->get();
     }
 
     /**
@@ -95,7 +102,7 @@ class Project extends Model
      */
     public static function getOne(int $projectId, string $userId)
     {
-        return self::prepareProjectQuery($userId)->where('id', $projectId)->first();
+        return self::prepareProjectQuery()->where('user_id', $userId)->where('id', $projectId)->first();
     }
 
     /**

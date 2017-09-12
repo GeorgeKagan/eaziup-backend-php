@@ -11,7 +11,13 @@ class ProjectController extends Controller
     public function index()
     {
         $request = app('request');
-        return Project::getAll($request->user()->uuid);
+        $isAll = $request->input('all', false);
+
+        if ($isAll) {
+            return Project::getAll();
+        } else {
+            return Project::getForUser($request->user()->uuid);
+        }
     }
 
     public function getOne(int $projectId)
