@@ -28,7 +28,7 @@ class ProjectController extends Controller
 
         try {
             // Edit mode
-            if ($data['id']) {
+            if (!empty($data['id'])) {
                 $project = Project::find($data['id']);
                 Project::saveProject($project, $data, $user->uuid, true);
             } else {
