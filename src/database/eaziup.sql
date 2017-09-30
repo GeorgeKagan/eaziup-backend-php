@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `start_date` date NOT NULL,
   `dev_count` tinyint(3) unsigned NOT NULL,
   `milestones_json` text NOT NULL DEFAULT '{}',
-  `is_removed` bit(1) NOT NULL DEFAULT b'0',
+  `status` enum('pending','approved','in_work','done','removed') NOT NULL DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),

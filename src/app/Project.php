@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    const PENDING = 'pending';
+    const APPROVED = 'approved';
+    const IN_WORK = 'in_work';
+    const DONE = 'done';
+    const REMOVED = 'removed';
+
     public function cat()
     {
         return $this->belongsTo('App\Cat');
@@ -72,7 +78,7 @@ class Project extends Model
     private static function prepareProjectQuery()
     {
         return self::with('cat')
-            ->where('is_removed', 0);
+            ->where('status', '!=', self::REMOVED);
     }
 
     /**
@@ -113,7 +119,7 @@ class Project extends Model
     public static function markAsRemoved(int $projectId, string $userId)
     {
         $project = self::where(['id' => $projectId, 'user_id' => $userId])->first();
-        $project->is_removed = 1;
+        $project->status = self::REMOVED;
         $project->save();
     }
 }
