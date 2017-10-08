@@ -22,8 +22,7 @@ class ProjectController extends Controller
 
     public function getOne(int $projectId)
     {
-        $request = app('request');
-        return Project::getOne($projectId, $request->user()->uuid);
+        return Project::getOne($projectId);
     }
 
     public function save()

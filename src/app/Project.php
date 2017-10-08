@@ -87,7 +87,7 @@ class Project extends Model
      */
     public static function getAll()
     {
-        return self::prepareProjectQuery()->get();
+        return self::prepareProjectQuery()->where('status', '!=', self::DONE)->get();
     }
 
     /**
@@ -103,12 +103,11 @@ class Project extends Model
     /**
      * Get a single project of a user
      * @param int $projectId
-     * @param string $userId
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public static function getOne(int $projectId, string $userId)
+    public static function getOne(int $projectId)
     {
-        return self::prepareProjectQuery()->where('user_id', $userId)->where('id', $projectId)->first();
+        return self::prepareProjectQuery()->where('id', $projectId)->first();
     }
 
     /**
