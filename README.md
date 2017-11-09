@@ -6,7 +6,7 @@
 * Create `src/.env` w/ credentials from `docker-compose.yml`
   * Import an SQL dump  to fill the DB (not versioned)
 * Install Docker on your local machine (https://docs.docker.com/engine/installation/)
-* Make sure to **mount** the drive the project is on under `Settings -> Shared Drives`
+* Make sure to **mount** the drive the project is on under `Settings > Shared Drives`
   * If you update Docker, you need to re-mount
 * Run `docker-compose up` **_using PowerShell_** to run the dev containers
 * Go to localhost:8080
@@ -20,7 +20,21 @@
 
 ## DB schema
 Schema only (no data) resides in `src/database/eaziup.sql`  
-If schema changes, replace the SQL file.
+If schema changes, replace the SQL file.  
+
+How to export schema?  
+* In HeidiSQL, right click DB > "Export database as SQL", in the UI do the following:
+  * Databases(s): check only "Create"
+  * Table(s): check only "Create"
+  * Data: select "No data"
+  * Options: check "Remove AUTO_INCREMENT clauses"
+  * Find the SQL file under source control, replace it
+* Check Git diff to see that wanted changes were added
+* Commit!
+
+
+## DB connection from host
+Port may not be 3306, check `docker-compose.yml > mysql > ports`
 
 ## Error logging
 The app error log is at `src/storage/logs/lumen.log`

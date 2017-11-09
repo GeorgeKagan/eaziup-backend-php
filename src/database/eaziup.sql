@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
+-- Host:                         localhost
 -- Server version:               10.2.7-MariaDB-10.2.7+maria~jessie - mariadb.org binary distribution
 -- Server OS:                    debian-linux-gnu
--- HeidiSQL Version:             9.4.0.5174
+-- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -16,6 +16,16 @@
 CREATE DATABASE IF NOT EXISTS `lumen` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `lumen`;
 
+-- Dumping structure for table lumen.applications
+CREATE TABLE IF NOT EXISTS `applications` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(50) NOT NULL DEFAULT '0',
+  `project_id` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id_project_id` (`user_id`,`project_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Users'' applications for projects';
+
+-- Data exporting was unselected.
 -- Dumping structure for table lumen.cats
 CREATE TABLE IF NOT EXISTS `cats` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
