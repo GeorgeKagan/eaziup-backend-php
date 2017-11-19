@@ -22,6 +22,17 @@ class Application extends Model
     }
 
     /**
+     * Cancel a student's application to a project
+     * @param int $projectId
+     * @param string $userId
+     */
+    public static function studentApplyCancel(int $projectId, string $userId)
+    {
+        $application = Application::where('user_id', '=', $userId)->where('project_id', '=', $projectId);
+        $application->delete();
+    }
+
+    /**
      * Check if student applied to specified project
      * @param int $projectId
      * @return array

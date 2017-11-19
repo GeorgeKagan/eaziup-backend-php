@@ -27,5 +27,6 @@ $app->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($app) 
     // PROJECT APPLICATIONS
     $app->group(['prefix' => 'project/apply'], function () use ($app) {
         $app->post('/{id}', 'ApplicationController@studentApply');
+        $app->post('/cancel/{id}', 'ApplicationController@studentApplyCancel');
     });
 });
