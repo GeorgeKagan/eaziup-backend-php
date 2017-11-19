@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Application;
 use App\Exceptions\MyException;
 use App\Project;
+use App\User;
 use Exception;
 
 class ProjectController extends Controller
@@ -22,7 +24,13 @@ class ProjectController extends Controller
 
     public function getOne(int $projectId)
     {
-        return Project::getOne($projectId);
+        $project = Project::getOne($projectId);
+
+        if (User::isStudent()) {
+            $project['application'] = Application::isStudentApplied($projectId);
+        }
+
+        return $project;
     }
 
     public function save()

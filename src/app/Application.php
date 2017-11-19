@@ -20,4 +20,15 @@ class Application extends Model
         $application['project_id'] = $projectId;
         $application->save();
     }
+
+    /**
+     * Check if student applied to specified project
+     * @param int $projectId
+     * @return array
+     */
+    public static function isStudentApplied(int $projectId)
+    {
+        $isApplied = self::where('project_id', '=', $projectId)->select('id AS isApplied')->first();
+        return ['isApplied' => (bool)$isApplied];
+    }
 }
