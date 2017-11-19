@@ -15,9 +15,12 @@ class ProjectController extends Controller
         $request = app('request');
         $isAll = $request->input('all', false);
 
+        // For a student
         if ($isAll) {
             return Project::getAll();
-        } else {
+        }
+        // For an entrepreneur (only his projects)
+        else {
             return Project::getForUser($request->user()->uuid);
         }
     }

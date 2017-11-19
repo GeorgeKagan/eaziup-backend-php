@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -87,7 +88,11 @@ class Project extends Model
      */
     public static function getAll()
     {
-        return self::prepareProjectQuery()->where('status', '!=', self::DONE)->get();
+        return self::prepareProjectQuery()
+            ->select('projects.*', DB::raw('applications.id IS NOT NULL AS is_applied'))
+            ->leftJoin('applications', 'projects.id', '=', 'applications.project_id')
+            ->where('projects.status', '!=', self::DONE)
+            ->get();
     }
 
     /**
