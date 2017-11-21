@@ -4,11 +4,13 @@
   * Composer requires PHP (http://windows.php.net/download)
 * Run `composer install` from `src` dir
 * Create `src/.env` w/ credentials from `docker-compose.yml`
-  * Import an SQL dump  to fill the DB (not versioned)
+  * Import an SQL dump  to fill the DB
 * Install Docker on your local machine (https://docs.docker.com/engine/installation/)
 * Make sure to **mount** the drive the project is on under `Settings > Shared Drives`
   * If you update Docker, you need to re-mount
-* Run `docker-compose up` **_using PowerShell_** to run the dev containers
+* Run the containers:
+  * Windows: `docker-compose up` **_using PowerShell_** 
+  * Linux: `sudo docker-compose up`
 * Go to localhost:8080
 
 ## Tips
