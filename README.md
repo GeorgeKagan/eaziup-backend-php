@@ -1,19 +1,27 @@
 # Setup instructions
 
-* Install composer (https://getcomposer.org/download/)
-  * Composer requires PHP (http://windows.php.net/download)
+* Install PHP and extensions:
+  * `sudo add-apt-repository ppa:ondrej/php`
+  * `sudo apt-get update`
+  * `sudo apt install php7.2-cli`
+  * `sudo apt install php7.2-mbstring php7.2-dom`
+* Install composer `sudo apt install composer`
 * Run `composer install` from `src` dir
-* Create `src/.env` w/ credentials from `docker-compose.yml`
-  * Import an SQL dump  to fill the DB
-* Install Docker on your local machine (https://docs.docker.com/engine/installation/)
-* Make sure to **mount** the drive the project is on under `Settings > Shared Drives`
-  * If you update Docker, you need to re-mount
-* Run the containers:
+* Run `chmod 777 src/storage/logs` from root dir
+* Install Docker `sudo apt install docker`
+* Install Docker Compose:
+  * ``sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose``
+  * `sudo chmod +x /usr/local/bin/docker-compose`
+* Run the containers from root dir:
   * Windows: `docker-compose up` **_using PowerShell_** 
   * Linux: `sudo docker-compose up`
+* Create `src/.env` w/ credentials from `docker-compose.yml`
+  * Import an SQL dump  to fill the DB
 * Go to localhost:8080
 
 ## Tips
+* Docker on Windows: make sure to **mount** the drive the project is on under `Settings > Shared Drives`.  
+If you update Docker, you need to re-mount
 * When making adjustments to docker-compose.yml / Dockerfile, run `docker-compose up --build`
 * To remove a container (e.g. to update host mappings), run `docker-compose rm *image*`
 * Remove all (also running) containers: `docker rm -f $(docker ps -a -q)`
