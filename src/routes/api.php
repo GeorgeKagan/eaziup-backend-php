@@ -2,31 +2,31 @@
 
 use App\Config\Config;
 
-$app->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($app) {
+$router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($router) {
 
     // COUNTRIES
-    $app->get('countries', function () use ($app) {
+    $router->get('countries', function () use ($router) {
         $countries = app('db')->select('SELECT id,name FROM countries');
         return $countries;
     });
 
     // CATEGORIES
-    $app->get('cats', function () use ($app) {
+    $router->get('cats', function () use ($router) {
         $cats = app('db')->select('SELECT id,name FROM cats');
         return [['name' => Config::MAIN_CAT, 'cats' => $cats]];
     });
 
     // PROJECTS
-    $app->group(['prefix' => 'project'], function () use ($app) {
-        $app->get('/', 'ProjectController@index');
-        $app->get('/{id}', 'ProjectController@getOne');
-        $app->post('/', 'ProjectController@save');
-        $app->delete('/{id}', 'ProjectController@remove');
+    $router->group(['prefix' => 'project'], function () use ($router) {
+        $router->get('/', 'ProjectController@index');
+        $router->get('/{id}', 'ProjectController@getOne');
+        $router->post('/', 'ProjectController@save');
+        $router->delete('/{id}', 'ProjectController@remove');
     });
 
     // PROJECT APPLICATIONS
-    $app->group(['prefix' => 'project/apply'], function () use ($app) {
-        $app->post('/{id}', 'ApplicationController@studentApply');
-        $app->delete('/cancel/{id}', 'ApplicationController@studentApplyCancel');
+    $router->group(['prefix' => 'project/apply'], function () use ($router) {
+        $router->post('/{id}', 'ApplicationController@studentApply');
+        $router->delete('/cancel/{id}', 'ApplicationController@studentApplyCancel');
     });
 });
