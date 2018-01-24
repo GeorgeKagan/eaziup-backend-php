@@ -15,8 +15,11 @@
 * Run the containers from root dir:
   * Windows: `docker-compose up` **_using PowerShell_** 
   * Linux: `sudo docker-compose up`
+  * Note: docker's PHP container's version is 7.x (latest)
+  * Tip: if any weird errors, re-run above cmd w/ or w/o `--build` suffix
 * Create `src/.env` w/ credentials from `docker-compose.yml`
   * Import an SQL dump  to fill the DB
+  * MariaDB's exposed-to-host port is **6603**
 * Go to localhost:8080
 
 ## Tips
@@ -41,10 +44,6 @@ How to export schema?
   * Find the SQL file under source control, replace it
 * Check Git diff to see that wanted changes were added
 * Commit!
-
-
-## DB connection from host
-Port may not be 3306, check `docker-compose.yml > mysql > ports`
 
 ## Error logging
 The app error log is at `src/storage/logs/lumen.log`
