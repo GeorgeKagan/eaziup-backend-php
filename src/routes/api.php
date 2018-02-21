@@ -20,6 +20,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
     $router->group(['prefix' => 'project'], function () use ($router) {
         $router->get('/', 'ProjectController@index');
         $router->get('/{id}', 'ProjectController@getOne');
+        $router->get('/{id}/applications', 'ApplicationController@getApplicationsForProject');
         $router->post('/', 'ProjectController@save');
         $router->delete('/{id}', 'ProjectController@remove');
     });

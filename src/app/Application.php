@@ -42,4 +42,15 @@ class Application extends Model
         $isApplied = self::where('project_id', '=', $projectId)->select('id AS isApplied')->first();
         return ['isApplied' => (bool)$isApplied];
     }
+
+    /**
+     * Get all applications to a project
+     * @param int $projectId
+     * @return mixed
+     */
+    public static function getApplicationsForProject(int $projectId)
+    {
+        $applications = Application::where('project_id', '=', $projectId);
+        return $applications->get();
+    }
 }

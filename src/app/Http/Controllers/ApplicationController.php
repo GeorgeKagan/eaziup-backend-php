@@ -31,4 +31,15 @@ class ApplicationController extends Controller
 
         return parent::success();
     }
+
+    /**
+     * Get all applications to a project
+     * @param int $projectId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getApplicationsForProject(int $projectId) {
+        $applications = Application::getApplicationsForProject($projectId);
+
+        return $applications;
+    }
 }
