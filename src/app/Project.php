@@ -103,9 +103,10 @@ class Project extends Model
     public static function getForUser(string $userId)
     {
         return self::prepareProjectQuery()
-            ->select('projects.*', DB::raw('COUNT(applications.id) as apps_count'))
+            ->select(DB::raw('projects.*, COUNT(applications.id) as apps_count'))
             ->leftJoin('applications', 'projects.id', '=', 'applications.project_id')
             ->where('projects.user_id', $userId)
+            ->groupBy('projects.id')
             ->get();
     }
 
